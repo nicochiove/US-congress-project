@@ -1,0 +1,22 @@
+.table-responsive-md{
+	position: relative;
+	height: 70vh;
+	overflow-y: scroll;
+	display: block;
+}
+
+
+#stickyHeader{
+	position: sticky;
+	top: 0;
+	background-color: darkgray;
+}
+
+td, th{
+	width: 20%;
+}
+
+#statesLinks{
+	height: 20vh;
+	overflow-y: auto;
+}

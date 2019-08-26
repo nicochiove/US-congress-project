@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta charset="utf-8">
+   		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Senate Loyalty</title>
+    </head>
+    
+    <body id="senate">
+         <div class="container-fluid" id="app">
+            <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #C9C4C3">
+                     <a class="navbar-brand" href="#">TGIF</a>
+                      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">            
+                   <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdown">Congress 115</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="senate_data.html">Senate</a>
+                          <a class="dropdown-item" href="house_data.html">House</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">  
+                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown">Attendance</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="senate_attendance.html">Senate</a>
+                          <a class="dropdown-item" href="house-attendance.html">House</a>
+                        </div>  
+                     </li>
+                     <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown">Party Loyalty</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item active" href="#">Senate</a>
+                          <a class="dropdown-item" href="house_loyalty.html">House</a>
+                        </div>  
+                     </li>
+                    </ul>
+                    <a href="mailto:info@tgif.net" class="col-sm-2 col-sm-offset-5"><span><img src="images/mail.png" alt="mail icon"></span>info@tgif.net</a>
+                </div>   
+            </nav>
+               
+  
+
+        
+        <div class="container">
+			<div class="row mt-4">
+			   <div class="col-md-6">
+			   		
+					<h2>Party Loyalty</h2>
+					<p>Those who consider themselves to be strong partisans, strong Democrats and strong Republicans respectively, tend to be the most faithful in voting for their party's nominee for office and legislation that backs their party's agenda. </p>
+					
+		   		</div>
+			   <div class="col-md-6">
+					<h2>Senate at a glance</h2>
+					<table class="table table-striped">
+						<thead class="text-center">
+							<tr>
+								<th>Party</th>
+								<th>Number of Reps</th>
+								<th>% Voted with Prty</th>
+							</tr>
+						</thead>
+						<tbody id="data_members" class="text-center">
+							<template v-if='ready'>
+								<tr>
+                                		<td>Republican</td>
+                                        <td>{{numberOfRep}}</td>
+                                        <td>{{promedioRep}}%</td>
+                                	</tr>
+                                	<tr>
+                                		<td>Democratic</td>
+                                        <td>{{numberOfDem}}</td>
+                                        <td>{{promedioDem}}%</td>
+                                	</tr>
+                                	<tr>
+                                		<td>Independent</td>
+                                        <td>{{numberOfInd}}</td>
+                                        <td>{{promedioInd}}%</td>
+                                	</tr>
+                                	<tr>
+                                		<td>TOTAL</td>
+                                        <td>{{totalMembers}}</td>
+                                        <td>{{promVotesGral}}%</td>
+                                	</tr>
+							</template>
+							<template v-else>
+								<tr>
+									<td colspan="3">
+										<div class="spinner-border " role="status">
+											<span class="sr-only">Loading...</span>
+										</div>      
+									</td>
+								</tr>
+							</template>
+						</tbody>
+					</table>
+				</div>
+			</div>	
+				<hr/ class="bg-dark">
+			   <div class="row"> 
+					<div class="col-md-6">	
+						<h2>Least Loyal (Bottom 10% of Party)</h2>
+						<table class="table table-striped">
+							<thead class="text-center">
+								<tr>
+									<th>Name</th>
+									<th>Number Party Votes</th>
+									<th>% Party Votes</th>
+								</tr>
+							</thead>
+							<tbody id="data_least" class="text-center">
+								<template v-if='ready'>
+									<tr v-for='member in leastLoyal'>
+										<td><a :href="member.url" target="_blank">{{member.last_name}}, {{member.first_name}} {{(member.middle_name || "")}}</a></td>
+                        				<td>{{((member.total_votes- member.missed_votes)*(member.votes_with_party_pct)/100).toFixed(0)}}</td>
+                        				<td>{{member.votes_with_party_pct}}%</td>
+									</tr>
+								</template>
+								<template v-else>
+									<tr>
+										<td colspan="3">
+											<div class="spinner-border " role="status">
+												<span class="sr-only">Loading...</span>
+											</div>      
+										</td>
+									</tr>
+								</template>
+							</tbody >
+						</table>
+					</div>
+					<div class="col-md-6">
+						<h2>Most Loyal (Top 10% of Party)</h2>
+						<table class="table table-striped">
+							<thead class="text-center">
+								<tr>
+									<th>Name</th>
+									<th>Number Party Votes</th>
+									<th>% Party Votes</th>
+								</tr>
+							</thead>
+							<tbody id="data_most" class="text-center">
+								<template v-if='ready'>
+									<tr v-for='member in mostLoyal'>
+										<td><a :href="member.url" target="_blank">{{member.last_name}}, {{member.first_name}} {{(member.middle_name || "")}}</a></td>
+                        				<td>{{((member.total_votes- member.missed_votes)*(member.votes_with_party_pct)/100).toFixed(0)}}</td>
+                        				<td>{{member.votes_with_party_pct}}%</td>
+									</tr>
+								</template>
+								<template v-else>
+									<tr>
+										<td colspan="3">
+											<div class="spinner-border " role="status">
+												<span class="sr-only">Loading...</span>
+											</div>      
+										</td>
+									</tr>
+								</template>
+							</tbody>
+						</table>
+					</div>	
+				</div>
+			</div>
+			</div> 
+    <footer style="background-color: #C9C4C3">
+            <div class="container-fluid text-center">
+                <h3 class="text-muted">&copy;2019 TGIF | All rigths reserved</h3>
+                <h6 class="text-muted"><span>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"                 title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/"                 title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></span></h6>
+            </div>
+    </footer>	
+    	    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    
+    <script src="statistics_vue.js"></script>  
+</body>
+</html>

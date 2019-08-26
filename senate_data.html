@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="styling.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Senate</title>
+    </head>
+    
+    <body>
+        
+        <div class="container-fluid" id="app">
+        
+          
+            <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #C9C4C3">
+                     <a class="navbar-brand" href="#">TGIF</a>
+                      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    					<span class="navbar-toggler-icon"></span>
+					</button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">            
+                   <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdown">Congress 115</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item active" href="#">Senate</a>
+                          <a class="dropdown-item" href="house_data.html">House</a>
+                        </div>
+					</li>
+                    <li class="nav-item dropdown">  
+                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown">Attendance</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="senate_attendance.html">Senate</a>
+                          <a class="dropdown-item" href="house-attendance.html">House</a>
+                        </div>  
+                     </li>
+                     <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown">Party Loyalty</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="senate_loyalty.html">Senate</a>
+                          <a class="dropdown-item" href="house_loyalty.html">House</a>
+                        </div>  
+                     </li>
+                    </ul>
+                    <a href="mailto:info@tgif.net" class="col-sm-2 col-sm-offset-5"><span><img src="images/mail.png" alt="mail icon"></span>info@tgif.net</a>
+				</div>   
+            </nav>
+       
+
+		<main>
+		   <div class="container-fluid">
+				<h2 class="mt-4">Senators</h2>
+				<p>First convened in 1789, the composition and powers of the Senate are established in Article One of the U.S. Constitution. Each state is represented by two senators, regardless of population, who serve staggered six-year terms. The Senate has several exclusive powers not granted to the House, including consenting to treaties as a precondition to their ratification and consenting to or confirming appointments of Cabinet secretaries, federal judges, other federal executive officials, military officers, regulatory officials, ambassadors, and other federal uniformed officers, as well as trial of federal officials impeached by the House.</p>
+
+				<div class="container">
+				   <!--FILTERS-->
+				   <div class="row mb-2">
+						
+						<div class="col-lg-4">   
+						   
+						   	<div>
+							    <label class="mr-2">Filter by Party:</label>
+							</div>
+
+							<div class="form-check form-check-inline text-center">  	
+							  	<div class="custom-control custom-checkbox mr-2">
+									<input type="checkbox" value="R" v-model="checkedParties" class="custom-control-input" id="rep" name="party">
+									<label class="custom-control-label"   for="rep">Republican</label>  
+								</div>
+								<div class="custom-control custom-checkbox mr-2">
+								    <input type="checkbox" value="D" v-model="checkedParties" class="custom-control-input" id="dem" name="party">
+								    <label class="custom-control-label" for="dem">Democrat</label>
+								</div>
+								<div class="custom-control custom-checkbox mr-2">
+								    <input type="checkbox" value="I" v-model="checkedParties" class="custom-control-input" id="ind" name="party">
+								    <label class="custom-control-label" for="ind">Independent</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-lg-8 text-center">
+
+							<div class="form-check-inline">
+								<label class="mr-1" for="selector"> Filter by State:</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<select id="selector" class="custom-select" v-model="selectedState" >
+									<option value="ALL" selected>ALL</option>
+									<option v-for="state in states" :value=state>{{state}}</option>
+								</select>
+							</div>
+
+						</div>	
+
+				   </div>
+				   <!-- FIN FILTERS -->
+				   <!--TABLA SENADORES-->
+					<div class="table-responsive-md">
+						<table id="stickyHeader" class="table table-hover mb-0 mt-2">
+						<thead>
+								<tr>
+									<th class="text-center align-middle">Senator</th>
+									<th class="text-center align-middle">Party Afiliation</th>
+									<th class="text-center align-middle">State</th>
+									<th class="text-center align-middle">Seniority</th>
+									<th class="text-center align-middle">Votes With the Party(%)</th>
+								</tr>
+							</thead>
+						</table>
+						
+						<table class="table table-hover mt-0">
+							
+							<tbody id="data" class="text-center">
+								<template v-if='ready'>	
+									<tr v-for="senator in filterMembers()">
+										<td><a :href="senator.url" target="_blank">{{senator.last_name}}, {{senator.first_name}} {{(senator.middle_name || "")}}</a></td>
+										<td>{{senator.party}}</td>
+										<td>{{senator.state}}</td>
+										<td>{{senator.seniority}}</td>
+										<td>{{(senator.votes_with_party_pct || "-")}}%</td>	
+									</tr>
+								</template>
+								<template v-else>
+									<tr>
+										<td colspan="5">
+  											<div class="spinner-border " role="status">
+    											<span class="sr-only">Loading...</span>
+  											</div>
+  										</td>
+									</tr>
+								</template>	
+							</tbody>
+							
+						</table>
+					</div>
+				</div>
+					<!--FIN TABLA SENADORES-->
+				</div>
+			
+		</main>
+    	</div>
+		<footer style="background-color: #C9C4C3">
+			<div class="container-fluid text-center">
+				<h3 class="text-muted">&copy;2019 TGIF | All rigths reserved</h3>
+				<h6 class="text-muted"><span>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"                 title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/"                 title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></span></h6>
+			</div>
+		</footer>
+
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	   <script src="https://unpkg.com/vue/dist/vue.js"></script>
+   		<script src="load_vue.js"></script>
+    </body>
+</html>
