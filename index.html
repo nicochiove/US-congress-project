@@ -10,7 +10,7 @@
     
     <body>
         
-        <div class="container-fluid">
+        <div class="container-fluid" id="main">
            
            <div class="jumbotron mb-0">
                 <div class="row align-items-center">
@@ -24,7 +24,7 @@
            </div>
            
             
-            <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #C9C4C3" id="nav">
+            <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #C9C4C3" >
                      <a class="navbar-brand" href="#">TGIF</a>
                       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     		                <span class="navbar-toggler-icon"></span>
@@ -54,10 +54,10 @@
                         </div>  
                      </li>
                      <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" onclick="desplegarEstados()">Legislators</a>
+                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" @click:desplegarEstados()>Legislators</a>
                         <div id="statesLinks" class="dropdown-menu" aria-labelledby="navbarDropdown">
                           <div v-for="state in states">
-                            <a class="dropdown-item" href="legislators.html" target="_blank">{{state.id.toUpperCase()}}</a>
+                            <a class="dropdown-item" :href=getStateId(state.id) >{{state.id.toUpperCase()}}</a>
                           </div>
                         </div>
                      </li>

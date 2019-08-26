@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="styling.css">
+	<title>Lesgislators</title>
+</head>
+
+<body>
+	<div class="container-fluid" id="app">
+              
+		<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #C9C4C3" >
+			<a class="navbar-brand" href="#">TGIF</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+		   <div class="collapse navbar-collapse" id="navbarSupportedContent">            
+				<ul class="navbar-nav mr-auto">
+				<li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+				<li class="nav-item dropdown">
+					<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdown">Congress 115</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					  <a class="dropdown-item" href="senate_data.html">Senate</a>
+					  <a class="dropdown-item" href="house_data.html">House</a>
+					</div>
+					</li>
+				<li class="nav-item dropdown">  
+					<a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown">Attendance</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					  <a class="dropdown-item" href="senate_attendance.html">Senate</a>
+					  <a class="dropdown-item" href="house-attendance.html">House</a>
+					</div>  
+				</li>
+				<li class="nav-item dropdown">
+					<a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown">Party Loyalty</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					  <a class="dropdown-item" href="senate_loyalty.html">Senate</a>
+					  <a class="dropdown-item" href="house_loyalty.html">House</a>
+					</div>  
+				</li>
+				<li class="nav-item dropdown">
+					<a href="#" class="nav-link active dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" @click:desplegarEstados()>Legislators</a>
+					<div id="statesLinks" class="dropdown-menu" aria-labelledby="navbarDropdown">
+					  <div v-for="state in states">
+						<a class="dropdown-item" :href=getStateId(state.id)>{{state.id.toUpperCase()}}</a>
+					  </div>
+					</div>
+				</li>
+				</ul>
+				<a href="mailto:info@tgif.net" class="col-sm-2 col-sm-offset-5"><span><img src="images/mail.png" alt="mail icon"></span>info@tgif.net</a>
+			</div>   
+		</nav>
+	
+		<main>
+			<div class="text-left">
+				<h1>Legislators</h1>
+				<p>State legislators are elected to serve as lawmakers and members of a legislative body. Most legislators possess a bachelor's degree, although no formal education is required. They do have to meet their state's age and residency requirements.
+				The breadth of a legislator's duties varies by state, and for most of these professionals, legislating is a part-time job. While there are no official education requirements, age and residency requirements for becoming a legislator differ by state.</p>
+			</div>
+			<div class="table-responsive-md">
+				<table class="table table-hover">
+					<thead class="text-center">
+						<tr>
+							<th>Name</th>
+							<th>Party</th>
+							<th>Title</th>
+						</tr>
+					</thead>
+					<tbody class="text-center">
+						<tr v-for="legislator in legislators">
+							<td><a :href="legislator.url" target="_blank">{{legislator.full_name}}</a></td>
+							<td>{{legislator.party}}</td>
+							<td>{{legislator.chamber_title}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</main>
+		
+		<footer  style="background-color: #C9C4C3">
+			<div class="container-fluid text-center">
+				<h3 class="text-muted">&copy;2019 TGIF | All rigths reserved</h3>
+				<h6 class="text-muted"><span>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"                 title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/"                 title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></span></h6>
+			</div>
+		</footer>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    
+
+   	<script src="metadata.js"></script>
+    <script src="ct_legislators.js"></script>
+    <script type="text/javascript" src="legislators.js"></script>
+
+</body>
+</html>

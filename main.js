@@ -1,20 +1,28 @@
-cargarAcordionDefault();
-
 var legislators= new Vue({
-    el: '#nav',
+    el: '#main',
     data: {
         states: [],
     },
     created(){
         m_data.forEach(state => this.states.push(state));
         this.states.sort((x,y) => x.id.localeCompare(y.id));
-    }
-})
+		this.cargarAcordionDefault();
+    },
+	methods:{
+		desplegarEstados: function(){
 
+			let dropStates= document.getElementById("statesLinks");
 
-function cargarAcordionDefault(){
-
-    document.getElementById("acordion").innerHTML= 
+			if(!dropStates.hasAttribute("style")){
+				dropStates.setAttribute("style","display:block");
+				dropStates.removeAttribute("style");
+			}else{
+				dropStates.getAttribute("style","display:none");
+			}
+		},
+		cargarAcordionDefault: function(){
+			
+			document.getElementById("acordion").innerHTML= 
 
                         `<div class="card">
 							<div class="card-header" id="headingOne">
@@ -23,11 +31,16 @@ function cargarAcordionDefault(){
 								</h2>
     						</div>
                         </div>`;
-}
+		},
+		getStateId: function(str){
+			return "legislators.html?state="+str;
+		}
+	}
+})
 
 function cargarAcordionDesplegado(){
-
-	document.getElementById("acordion").innerHTML= 
+			
+			document.getElementById("acordion").innerHTML= 
 
                         `<div id="collapseOne" class="collapse" aria-labelledby="headingOne">
                             <div class="card-body">
@@ -44,20 +57,9 @@ function cargarAcordionDesplegado(){
                         <div class="card">
 							<div class="card-header" id="headingOne">
                             	<h2 class="mb-0">
-        							<button onclick="cargarAcordionDefault()" class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Read Less</button>
+        							<button @click:cargarAcordionDefault() class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Read Less</button>
 								</h2>
     						</div>
-                        </div>`;
-}
+                        </div>`
+		}
 
-function desplegarEstados(){
-
-    let dropStates= document.getElementById("statesLinks");
-
-    if(!dropStates.hasAttribute("style")){
-        dropStates.setAttribute("style","display:block");
-        dropStates.removeAttribute("style");
-    }else{
-        dropStates.getAttribute("style","display:none");
-    }
-}
